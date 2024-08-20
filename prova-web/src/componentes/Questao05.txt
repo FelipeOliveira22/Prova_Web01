@@ -1,0 +1,41 @@
+Os contextos ajudam a partir do momento em que você armazena os dados e envia eles 
+diretamente para os componentes e assim eles já pegam os dados que precisam de forma direta, 
+sem muita abstração e complexidade, sem necessidade de ter que fazem manualmente ou com dificuldade, 
+ou seja, eles conseguem passar informações importantes de um para o outro, 
+sem a necessidade de ter que passar de forma manual, e através do contexto não precisamos passar por todos os níveis, 
+sendo possível passar lá no superior e só utilizar no ultimo;
+
+Enquanto no Props Drilling eles estão muito encapsulados e deixam código bem complexo, pois tem que passar 
+vários níveis, tendo que passar em todos os níveis o contexto salva isso e deixa bem melhor
+, sem a necessidade de encapsular os níveis, podendo ser usado onde quiser.
+
+
+
+import React, { createContext, useContext, useState } from 'react';
+//Inicialização do contexto realizado.
+const DataContext = createContext({naturalidade: ''});
+
+const PaiComponent = () => {
+    const [value, setValue] = useState({naturalidade: 'Brasil'});
+    //Aqui o valor que será atribuido pelo context é armazenado e depois só precisa ser repassado.
+
+    return (
+        // Aqui o valor é passado de pai para filho de forma direta;
+        <DataContext.Provider value={value}>
+            <FilhoComponent />
+        </DataContext.Provider>
+    );
+};
+
+
+const FilhoComponent = () => {
+    // Aqui o valor do contexto é utilizado para armazenar em um novo componente
+    const value = useContext(DataContext);
+
+    return (
+        <div>{value}</div>
+    );
+};
+
+
+export default PaiComponent;
